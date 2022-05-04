@@ -1,6 +1,7 @@
 <?php
+require "config.php";
 try {
-    $db = new PDO("mysql:host=localhost;dbname=pw3", "root", "");
+    $db = new PDO("mysql:host={$_DATABASE['HOSTNAME']};dbname={$_DATABASE['DBNAME']}", $_DATABASE['USER'], $_DATABASE['PWD']);
     $pessoas = [];
     foreach ($db->query("
         SELECT *, CONCAT(nome, ' ', sobrenome) as nome_completo 
