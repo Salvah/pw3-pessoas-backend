@@ -1,6 +1,6 @@
 <?php
 
-require "../config.php";
+require dirname(__FILE__) . "/../config.php";
 
 class Pessoa {
     private $id;
@@ -19,6 +19,7 @@ class Pessoa {
    }
 
     static function findByPk($id){
+        global $_DATABASE;
         $db = new PDO("mysql:host={$_DATABASE['HOSTNAME']};dbname={$_DATABASE['DBNAME']}", $_DATABASE['USER'], $_DATABASE['PWD']);
         $consulta = $db->prepare("SELECT * FROM pessoas WHERE id=:id");
         $consulta->execute([':id' => $id]);
@@ -34,6 +35,7 @@ class Pessoa {
     function getDtNasc(){return $this->dtnasc;}
 
     function inserir(){
+        global $_DATABASE;
         try {
             $db = new PDO("mysql:host={$_DATABASE['HOSTNAME']};dbname={$_DATABASE['DBNAME']}", $_DATABASE['USER'], $_DATABASE['PWD']);
             $consulta = $db->prepare("INSERT INTO pessoas(nome, sobrenome, dtnasc) VALUES(:nome,:sobrenome,:dtnasc)");
@@ -54,6 +56,7 @@ class Pessoa {
     }
 
     function alterar(){
+        global $_DATABASE;
         try {
             $db = new PDO("mysql:host={$_DATABASE['HOSTNAME']};dbname={$_DATABASE['DBNAME']}", $_DATABASE['USER'], $_DATABASE['PWD']);
             $consulta = $db->prepare("UPDATE pessoas SET nome = :nome, sobrenome = :sobrenome, dtnasc = :dtnasc WHERE id= :id");
@@ -69,6 +72,7 @@ class Pessoa {
     }
 
     function remover(){
+        global $_DATABASE;
         try {
             $db = new PDO("mysql:host={$_DATABASE['HOSTNAME']};dbname={$_DATABASE['DBNAME']}", $_DATABASE['USER'], $_DATABASE['PWD']);
             $consulta = $db->prepare("DELETE FROM pessoas WHERE id= :id");
